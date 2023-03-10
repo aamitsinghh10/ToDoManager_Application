@@ -9,6 +9,7 @@ import Dao.TaskDao;
 import Dao.UserDao;
 
 public class Main {
+	//AMIT
     private static final Scanner ob = new Scanner(System.in);
     private static TaskDao taskDao = new TaskDao();
     private static UserDao userDao = new UserDao();
@@ -92,19 +93,22 @@ public class Main {
     }
 
     private static void addTask(User currentUser) throws Exception{
-        System.out.println("Enter Task Id:");
+    	System.out.println("Enter Task Id:");
         int taskId = ob.nextInt();
+        ob.nextLine();
         System.out.println("Enter Task Title:");
-        String title = ob.next();
+        String title = ob.nextLine();
         System.out.println("Enter task description:");
-        String description = ob.next();
-
+        String description = ob.nextLine();
+        System.out.println("enter task status");
+        boolean status = ob.nextBoolean();
+        
         Task task = new Task();
         task.setTaskId(taskId);
         task.setTaskTitle(title);
         task.setTaskText(description);
         task.setAssignedTo(currentUser.getEmail());
-
+        task.setTaskCompleted(status);
         taskDao.addTask(task);
 
         System.out.println("Task added successfully!");
@@ -129,7 +133,7 @@ public class Main {
                 System.out.println("Invalid task ID. Please try again.");
                 return;
             }
-
+ 
             if (!taskToUpdate.getAssignedTo().equals(currentUser.getEmail())) {
 
                 System.out.println("You are not authorized to update this task.");
@@ -198,7 +202,7 @@ public class Main {
     private static void searchTasks(User currentUser) {
         System.out.println("Please enter a keyword to search for in task titles and descriptions:");
         String keyword = ob.nextLine().trim();
-
+        ob.nextLine();
         List<Task> searchResults=null;
 		try {
 			searchResults = taskDao.searchTasks(keyword, currentUser.getEmail());
@@ -262,7 +266,7 @@ public class Main {
     private static void viewIncompleteTasks(User currentUser) {
         List<Task> tasks=null;
 		try {
-			tasks = taskDao.getTaskByStatus(currentUser.getEmail(), false);
+			tasks = taskDao.getIncompleTaskByStatus(currentUser.getEmail(), false);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -14,13 +14,12 @@ public class UserDao {
     Connection conn = DBConnection.getConnection();
     List<User> userList = new ArrayList<>();
     public void addUser(User user) throws Exception{
-        String sql = "INSERT INTO users (userId,username, email, password) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
         try{
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1,user.getUserId());
-            statement.setString(2,user.getUserName());
-            statement.setString(3,user.getEmail());
-            statement.setString(4,user.getPassword());
+            statement.setString(1,user.getUserName());
+            statement.setString(2,user.getEmail());
+            statement.setString(3,user.getPassword());
             statement.executeUpdate();
         }
         catch(SQLException e){
@@ -77,9 +76,9 @@ public class UserDao {
         return allUsers;
     }
 	public User getUserByEmailAndPassword(String email, String password) throws Exception {
-
-		 String sql = "SELECT * from users where email=? and password=?";
-		 //String sql = "select * from user where email=? and password=?";
+		// TODO Auto-generated method stub
+		 String sql = "SELECT * FROM users where email=? and password=?";
+		 //String sql = "select * from user where email=?";
 	        User user = null;
 	        try{
 	            PreparedStatement statement = conn.prepareStatement(sql);
